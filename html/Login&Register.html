@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="../css/Login&RigsterStyle.css" />
+  </head>
+  <body style="-webkit-app-region: drag">
+    <section>
+      <!-- <div class="color"></div> -->
+      <!--<div class="color"></div>
+      <div class="color"></div>-->
+
+      <!-- <div class="square" style="--i: 0"></div>
+        <div class="square" style="--i: 1"></div>
+        <div class="square" style="--i: 2"></div>
+        <div class="square" style="--i: 3"></div>
+        <div class="square" style="--i: 4"></div> -->
+      <div class="container" style="-webkit-app-region: no-drag">
+        <div
+          class="form hidden"
+          id="register-box"
+          style="-webkit-app-region: no-drag"
+        >
+          <h2 data-en="MyChat Regist" ,data-zh="登录 MyChat">Rigster</h2>
+          <form>
+            <div class="inputBox nodrag" style="-webkit-app-region: no-drag">
+              <input
+                id="Username"
+                type="text"
+                placeholder="Username"
+                style="-webkit-app-region: no-drag"
+              />
+            </div>
+
+            <div class="inputBox" style="-webkit-app-region: no-drag">
+              <input id="Password" type="password" placeholder="Password" />
+            </div>
+
+            <div class="inputBox" style="-webkit-app-region: no-drag">
+              <input id="Phone" type="text" placeholder="Phone" />
+            </div>
+
+            <div class="inputBox" style="-webkit-app-region: no-drag">
+              <input id="Email" type="email" placeholder="Email" />
+            </div>
+
+            <div class="buttonContainer" style="margin-top: 10px">
+              <div class="inputBox" style="-webkit-app-region: no-drag">
+                <input type="submit" value="Regist" />
+              </div>
+
+              <div class="inputBox" style="-webkit-app-region: no-drag">
+                <button data-en="Exit" data-ch="退出" class="Exit">Exit</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="form" id="login-box">
+          <h2 data-en="MyChat Login" ,data-zh="登录 MyChat">Login</h2>
+          <form>
+            <div class="inputBox" style="-webkit-app-region: no-drag">
+              <input id="LoginUsername" type="text" placeholder="Username" />
+            </div>
+
+            <div class="inputBox" style="-webkit-app-region: no-drag">
+              <input
+                id="LoginPassword"
+                type="password"
+                placeholder="Password"
+              />
+            </div>
+
+            <div class="buttonContainer">
+              <div class="inputBox" style="-webkit-app-region: no-drag">
+                <input id="LoginSubmit" type="submit" value="Login" />
+              </div>
+
+              <div class="inputBox" style="-webkit-app-region: no-drag">
+                <button data-en="Exit" data-ch="退出" class="Exit">Exit</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="con-box left">
+        <h2><span>MyChat</span></h2>
+        <p>快来领取你的专属<span>宠物</span>吧</p>
+        <!--<img src="../images/cat/1.png" alt="" />-->
+        <p>已有账号</p>
+        <button id="gotologin" style="-webkit-app-region: no-drag">
+          去登录
+        </button>
+      </div>
+      <div class="con-box right">
+        <h2><span>MyChat</span></h2>
+        <p>快来看看你的可爱<span>宠物</span>吧</p>
+        <!--<img src="#" alt="" />-->
+        <p>没有账号？</p>
+        <button id="gotoregister" style="-webkit-app-region: no-drag">
+          去注册
+        </button>
+      </div>
+    </section>
+  </body>
+  <script type="module" src="../js/Login&Register.js"></script>
+</html>
