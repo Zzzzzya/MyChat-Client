@@ -33,6 +33,12 @@ ipcMain.on("LoginSuccess", (event, arg) => {
   console.log(arg);
 });
 
+ipcMain.on("RegistSuccess", (event, arg) => {
+  LoginRegisterWindow.close();
+  LoginRegisterWindow = CreateNewWindow("./html/Login&Register.html");
+  console.log(arg);
+});
+
 ipcMain.on("Exit", (event, arg) => {
   app.quit();
 });

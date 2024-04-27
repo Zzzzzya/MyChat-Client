@@ -1,7 +1,7 @@
-import { TryLogin } from "./LoginService.js";
+import { TryLogin, TryRegist } from "./LoginService.js";
 const { ipcRenderer } = require("electron");
 
-// 1.页面切换模块
+//---------------------------------登录注册切换 动画效果 模块---------------------------------
 let GotoLogin = document.getElementById("gotologin");
 let GotoRegister = document.getElementById("gotoregister");
 let container = document.getElementsByClassName("container")[0];
@@ -30,7 +30,7 @@ GotoLogin.addEventListener("click", () => {
   container.style.width = currentWidth - 1 + "px";
 });
 
-//2.Login表单提交事件 尝试登录
+//---------------------------------登录模块---------------------------------
 document.getElementById("LoginSubmit").addEventListener("click", (event) => {
   event.preventDefault();
   let username = document.getElementById("LoginUsername").value;
@@ -41,6 +41,21 @@ document.getElementById("LoginSubmit").addEventListener("click", (event) => {
   TryLogin(username, password, 1, "2.0.0");
 });
 
+//---------------------------------注册模块---------------------------------
+document.getElementById("RegistSubmit").addEventListener("click", (event) => {
+  event.preventDefault();
+  let username = document.getElementById("RegistUsername").value;
+  let password = document.getElementById("RegistPassword").value;
+  let nickname = document.getElementById("RegistNickname").value;
+  let email = document.getElementById("RegistEmail").value;
+
+  console.log(username, password, nickname, email);
+
+  TryRegist(username, password, nickname, email);
+});
+
+//---------------------------------退出模块---------------------------------
+//Exit按钮点击事件
 for (let i = 0; i < document.getElementsByClassName("Exit").length; i++) {
   document
     .getElementsByClassName("Exit")
