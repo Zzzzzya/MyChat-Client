@@ -29,6 +29,7 @@
   position: relative;
   top: -100px;
   opacity: 0;
+  z-index: 100;
 }
 
 .shown {

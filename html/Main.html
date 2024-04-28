@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MainWindow</title>
+    <link rel="stylesheet" href="../css/MainWindow.css" />
+    <link rel="stylesheet" href="../css/PromptBox.css" />
+  </head>
+  <body style="-webkit-app-region: drag">
+    <!-----------------------------边框栏-------------------------->
+    <div class="sidebar">
+      <ul>
+        <!-------------------------Logo--------------------------->
+        <li class="logo" style="--bg: #333">
+          <a href="#">
+            <div class="icon"><ion-icon name="logo-electron"></ion-icon></div>
+            <div class="text">MyChat</div>
+          </a>
+        </li>
+        <!-------------------------菜单栏--------------------------->
+        <div class="Menulist">
+          <li style="--bg: #a262ad">
+            <a href="#">
+              <div class="icon">
+                <ion-icon name="person-outline"></ion-icon>
+              </div>
+              <div class="text">User</div>
+            </a>
+          </li>
+          <li style="--bg: #a262ad">
+            <a href="#">
+              <div class="icon">
+                <ion-icon name="chatbox-outline"></ion-icon>
+              </div>
+              <div class="text">Chat</div>
+            </a>
+          </li>
+          <li style="--bg: #a262ad">
+            <a href="#">
+              <div class="icon">
+                <ion-icon name="people-outline"></ion-icon>
+              </div>
+              <div class="text">Profile</div>
+            </a>
+          </li>
+          <li style="--bg: #a262ad">
+            <a href="#">
+              <div class="icon">
+                <ion-icon name="settings-outline"></ion-icon>
+              </div>
+              <div class="text">Settings</div>
+            </a>
+          </li>
+        </div>
+        <!-------------------------底部栏--------------------------->
+        <div class="bottom">
+          <li style="--bg: #a262ad">
+            <a href="#">
+              <div class="icon">
+                <div class="imgBx">
+                  <img src="../src/images/logo/me.jpg" />
+                </div>
+              </div>
+              <div class="text">关注安安喵谢谢喵</div>
+            </a>
+          </li>
+          <li id="Logout" style="--bg: #a262ad">
+            <a href="#">
+              <div class="icon">
+                <ion-icon name="log-out-outline"></ion-icon>
+              </div>
+              <div class="text">Logout</div>
+            </a>
+          </li>
+        </div>
+      </ul>
+    </div>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+  </body>
+  <script>
+    let sidebar = document.querySelector(".sidebar");
+    sidebar.addEventListener("mouseover", () => {
+      sidebar.classList.toggle("active");
+    });
+    sidebar.addEventListener("mouseout", () => {
+      sidebar.classList.toggle("active");
+    });
+
+    let lis = document.querySelectorAll(".Menulist li");
+    lis.forEach((element) => {
+      element.addEventListener("click", () => {
+        lis.forEach((li) => {
+          li.classList.remove("active");
+        });
+        element.classList.add("active");
+      });
+    });
+  </script>
+</html>

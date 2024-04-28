@@ -17,6 +17,7 @@ function CreateNewWindow(htmlFile) {
 }
 
 let LoginRegisterWindow = null;
+let MainWindow = null;
 
 app.whenReady().then(() => {
   LoginRegisterWindow = CreateNewWindow("./html/Login&Register.html");
@@ -31,7 +32,7 @@ app.addListener("window-all-closed", () => {
 ipcMain.on("LoginSuccess", (event, arg) => {
   setTimeout(function () {
     LoginRegisterWindow.close();
-    console.log(arg);
+    MainWindow = CreateNewWindow("./html/Main.html");
   }, 2000);
 });
 
