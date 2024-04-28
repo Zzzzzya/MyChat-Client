@@ -41,3 +41,5 @@ MyChat-Client by electron
   
   transformer时给container的宽度进行加减1，这样可以触发强制重绘
 
+## Day3 2024.4.27
+>完善了登录和注册界面功能

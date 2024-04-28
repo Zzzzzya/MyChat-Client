@@ -29,14 +29,18 @@ app.addListener("window-all-closed", () => {
 });
 
 ipcMain.on("LoginSuccess", (event, arg) => {
-  LoginRegisterWindow.close();
-  console.log(arg);
+  setTimeout(function () {
+    LoginRegisterWindow.close();
+    console.log(arg);
+  }, 2000);
 });
 
 ipcMain.on("RegistSuccess", (event, arg) => {
-  LoginRegisterWindow.close();
-  LoginRegisterWindow = CreateNewWindow("./html/Login&Register.html");
-  console.log(arg);
+  setTimeout(function () {
+    LoginRegisterWindow.close();
+    LoginRegisterWindow = CreateNewWindow("./html/Login&Register.html");
+    console.log(arg);
+  }, 2000);
 });
 
 ipcMain.on("Exit", (event, arg) => {

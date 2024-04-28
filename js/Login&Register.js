@@ -1,4 +1,5 @@
 import { TryLogin, TryRegist } from "./LoginService.js";
+import { NewPromptBox } from "./PromptBox.js";
 const { ipcRenderer } = require("electron");
 
 //---------------------------------登录注册切换 动画效果 模块---------------------------------
@@ -36,6 +37,19 @@ document.getElementById("LoginSubmit").addEventListener("click", (event) => {
   let username = document.getElementById("LoginUsername").value;
   let password = document.getElementById("LoginPassword").value;
 
+  let errorMessage = "";
+
+  if (!username) {
+    errorMessage = "用户名不能为空";
+  } else if (!password) {
+    errorMessage = "密码不能为空";
+  }
+
+  if (errorMessage) {
+    NewPromptBox(errorMessage);
+    return;
+  }
+
   console.log(username, password);
 
   TryLogin(username, password, 1, "2.0.0");
@@ -48,6 +62,23 @@ document.getElementById("RegistSubmit").addEventListener("click", (event) => {
   let password = document.getElementById("RegistPassword").value;
   let nickname = document.getElementById("RegistNickname").value;
   let email = document.getElementById("RegistEmail").value;
+
+  let errorMessage = "";
+
+  if (!username) {
+    errorMessage = "用户名不能为空";
+  } else if (!password) {
+    errorMessage = "密码不能为空";
+  } else if (!nickname) {
+    errorMessage = "昵称不能为空";
+  } else if (!email) {
+    errorMessage = "邮箱不能为空";
+  }
+
+  if (errorMessage) {
+    NewPromptBox(errorMessage);
+    return;
+  }
 
   console.log(username, password, nickname, email);
 
