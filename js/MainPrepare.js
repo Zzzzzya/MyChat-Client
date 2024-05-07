@@ -14,10 +14,9 @@ let db = new sqlite3.Database(path.join(PATH_DB, "MC.db"), (err) => {
 
 let nickname = document.querySelector(".Name .text");
 let signature = document.querySelector(".signature");
-let email = document.querySelector(".textBox .content");
-let phone = document.querySelector(".textBox .content");
-let education = document.querySelector(".textBox .content");
-let birthday = document.querySelector(".textBox .content");
+let email = document.querySelector("#userEmail");
+let phone = document.querySelector("#userPhone");
+let birthday = document.querySelector("#userBirth");
 
 //查询数据库--获取个人信息
 let sql1 = `SELECT * FROM CurUser LIMIT 1`;
@@ -48,7 +47,6 @@ db.get(sql1, (err, row) => {
       signature.textContent = row.Signature;
       email.textContent = row.Email;
       phone.textContent = row.Phone;
-      education.textContent = row.Education;
       birthday.textContent = row.Birthday;
     } else {
       console.log(`No user found with the username ${username}`);
