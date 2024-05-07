@@ -1,4 +1,5 @@
 const { app, ipcMain, BrowserWindow } = require("electron");
+const { db } = require("./js/sql.js");
 
 function CreateNewWindow(htmlFile) {
   let win = new BrowserWindow({
@@ -25,10 +26,13 @@ app.whenReady().then(() => {
 
 app.addListener("window-all-closed", () => {
   if (process.platform !== "darwin") {
+    //关闭数据库链接
+    //关闭所有页面
     app.quit();
   }
 });
 
+//跳转主页面
 ipcMain.on("LoginSuccess", (event, arg) => {
   setTimeout(function () {
     LoginRegisterWindow.close();

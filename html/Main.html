@@ -22,15 +22,15 @@
         <!-------------------------菜单栏--------------------------->
         <div class="Menulist">
           <li style="--bg: #a262ad">
-            <a href="#">
+            <a class="profile">
               <div class="icon">
                 <ion-icon name="person-outline"></ion-icon>
               </div>
-              <div class="text">User</div>
+              <div class="text">profile</div>
             </a>
           </li>
           <li style="--bg: #a262ad">
-            <a href="#">
+            <a class="chat">
               <div class="icon">
                 <ion-icon name="chatbox-outline"></ion-icon>
               </div>
@@ -38,15 +38,15 @@
             </a>
           </li>
           <li style="--bg: #a262ad">
-            <a href="#">
+            <a class="friends">
               <div class="icon">
                 <ion-icon name="people-outline"></ion-icon>
               </div>
-              <div class="text">Profile</div>
+              <div class="text">friends</div>
             </a>
           </li>
           <li style="--bg: #a262ad">
-            <a href="#">
+            <a class="settings">
               <div class="icon">
                 <ion-icon name="settings-outline"></ion-icon>
               </div>
@@ -77,6 +77,50 @@
         </div>
       </ul>
     </div>
+    <!-----------------------------主窗口-------------------------->
+    <div class="mainWindow">
+      <div id="page0" class="page"></div>
+      <!-----page1 : User Profile---->
+      <div id="page1" class="page">
+        <!----header-->
+        <div class="header">
+          <div class="imgBx">
+            <img src="../src/images/UserInfo/me.jpg" />
+          </div>
+
+          <div class="Name">
+            <div class="text">Zzzzzya</div>
+            <div class="Gender">
+              <ion-icon name="female-outline"></ion-icon>
+            </div>
+          </div>
+
+          <div class="signature">Happy everyday!</div>
+        </div>
+        <!---body-->
+        <div class="pagebody">
+          <div class="textBox">
+            <div class="title">邮箱</div>
+            <div class="content">1733179626@qq.com</div>
+          </div>
+          <div class="textBox">
+            <div class="title">电话</div>
+            <div class="content">19816881066</div>
+          </div>
+          <div class="textBox">
+            <div class="title">教育经历</div>
+            <div class="content">❀科win</div>
+          </div>
+          <div class="textBox">
+            <div class="title">生日</div>
+            <div class="content">04.29</div>
+          </div>
+        </div>
+      </div>
+      <div id="page2" class="page">Page 2</div>
+      <div id="page3" class="page">Page 3</div>
+      <div id="page4" class="page">Page 4</div>
+    </div>
     <script
       type="module"
       src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
@@ -86,13 +130,17 @@
       src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
     ></script>
   </body>
+  <script src="../js/MainPrepare.js"></script>
   <script>
     let sidebar = document.querySelector(".sidebar");
+    let mainWindow = document.querySelector(".mainWindow");
     sidebar.addEventListener("mouseover", () => {
       sidebar.classList.toggle("active");
+      mainWindow.classList.toggle("active");
     });
     sidebar.addEventListener("mouseout", () => {
       sidebar.classList.toggle("active");
+      mainWindow.classList.toggle("active");
     });
 
     let lis = document.querySelectorAll(".Menulist li");
@@ -103,6 +151,58 @@
         });
         element.classList.add("active");
       });
+    });
+
+    let a1 = document.querySelector(".profile");
+    let a2 = document.querySelector(".chat");
+    let a3 = document.querySelector(".friends");
+    let a4 = document.querySelector(".settings");
+    let pageLists = document.querySelectorAll(".page");
+
+    let curPage = 0;
+
+    a1.addEventListener("click", () => {
+      let upDown = pageLists[1].style.bottom;
+      let move = "100%";
+      if (upDown === "100%") {
+        move = "-100%";
+      }
+
+      pageLists[curPage].style.bottom = move;
+      pageLists[1].style.bottom = "0";
+      curPage = 1;
+    });
+    a2.addEventListener("click", () => {
+      let upDown = pageLists[2].style.bottom;
+      let move = "100%";
+      if (upDown === "100%") {
+        move = "-100%";
+      }
+
+      pageLists[curPage].style.bottom = move;
+      pageLists[2].style.bottom = "0";
+      curPage = 2;
+    });
+    a3.addEventListener("click", () => {
+      let upDown = pageLists[3].style.bottom;
+      let move = "100%";
+      if (upDown === "100%") {
+        move = "-100%";
+      }
+      pageLists[curPage].style.bottom = move;
+      pageLists[3].style.bottom = "0";
+      curPage = 3;
+    });
+    a4.addEventListener("click", () => {
+      let upDown = pageLists[4].style.bottom;
+      let move = "100%";
+      if (upDown === "100%") {
+        move = "-100%";
+      }
+
+      pageLists[curPage].style.bottom = move;
+      pageLists[4].style.bottom = "0";
+      curPage = 4;
     });
   </script>
 </html>

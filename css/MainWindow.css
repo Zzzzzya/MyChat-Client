@@ -9,10 +9,16 @@
 :root {
   /*背景颜色*/
   --clr: #14161e;
+  /*主页面背景 && 点击按钮背景颜色*/
+  --bgclr2: #e3eeff;
 }
 body {
   min-height: 100vh;
   background: var(--clr);
+}
+
+body::-webkit-scrollbar {
+  width: 0 !important;
 }
 
 .sidebar {
@@ -43,7 +49,7 @@ body {
 }
 
 .sidebar ul li.active {
-  background: #14161e;
+  background: var(--bgclr2);
   border-top-left-radius: 50px;
   border-bottom-left-radius: 50px;
 }
@@ -97,7 +103,7 @@ body {
 }
 .sidebar ul li.active a .icon,
 .sidebar ul li.active a .text {
-  color: #fff;
+  color: var(--bg);
 }
 
 .sidebar ul li:hover a .icon,
@@ -131,4 +137,170 @@ body {
   top: 0;
   width: 100%;
   height: 100%;
+}
+
+.mainWindow {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+
+  left: 80px;
+  width: calc(100% - 80px);
+  height: 100vh;
+  background: var(--bgclr2);
+  transition: 0.5s;
+  padding: 10px;
+  justify-content: center; /* 水平居中 */
+  align-items: center;
+}
+
+.mainWindow::-webkit-scrollbar {
+  width: 0 !important;
+}
+
+.mainWindow.active {
+  left: 250px;
+  width: calc(100% - 250px);
+}
+
+.mainWindow .page {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+
+  align-items: center;
+  margin: 36px;
+  padding: 10px;
+  min-width: 80%;
+
+  min-height: 90%;
+
+  border-radius: 5%;
+  backdrop-filter: blur(50px);
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+  transition: 0.5s;
+  background: #fff;
+}
+
+.mainWindow .hidden {
+  display: none;
+}
+
+#page1 .header {
+  display: flex;
+  align-items: center;
+  top: 20px;
+  width: 50%;
+  flex-direction: column;
+  /* border-bottom: 1px solid rgba(0, 0, 0, 0.1); */
+}
+
+#page1 .header .imgBx {
+  position: relative;
+
+  margin-top: 20px;
+  width: 250px;
+  height: 250px;
+  border-radius: 5%;
+  overflow: hidden;
+  transform: 0;
+}
+
+#page1 .header .imgBx img {
+  position: absolute;
+
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#page1 .header .text {
+  position: relative;
+  margin: 0;
+  font-size: 50px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #333;
+}
+
+#page1 .header .signature {
+  margin-top: 5px;
+  font-size: 1em;
+  font-weight: 500;
+  color: #333;
+}
+
+#page1 .header .Name {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 20px;
+  font-size: 1.5em;
+  font-weight: 500;
+  color: #333;
+}
+
+#page1 .header .Name .Gender {
+  position: relative;
+  top: 3px;
+  left: 10px;
+  height: 50%;
+  color: pink;
+}
+
+#page1 .pagebody {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+
+  padding: 10px;
+}
+
+#page1 .pagebody .textBox {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  margin: 2px;
+  left: 10%;
+  width: 40%;
+}
+
+#page1 .pagebody .textBox .title {
+  position: relative;
+  margin: 10px;
+  margin-left: 20px;
+  left: 20%;
+}
+
+#page1 .pagebody .textBox .content {
+  position: absolute;
+  margin-top: 10px;
+  width: 80%;
+  left: 100%;
+}
+
+/*初始状态*/
+#page0 {
+  bottom: 0%;
+}
+
+#page1 {
+  bottom: 0%;
+}
+
+#page2 {
+  bottom: -100%;
+}
+
+#page3 {
+  bottom: -100%;
+}
+
+#page4 {
+  bottom: -100%;
 }
