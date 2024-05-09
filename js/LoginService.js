@@ -59,10 +59,6 @@ export function TryLogin(username, password, online_status, client_version) {
 
       NewPromptBox("登录成功！请等候加载");
 
-      // 插入新的一行为username
-      db.run("DELETE FROM CurUser");
-      db.run("INSERT INTO CurUser (username) VALUES (?)", username);
-
       //请求个人信息
       let nickname = response.nickname;
       let gender = response.gender;
@@ -70,12 +66,48 @@ export function TryLogin(username, password, online_status, client_version) {
       let email = response.email;
       let phone = response.phone;
       let birthday = response.birthday;
+      let UserId = response.user_id;
+
+      let MSG_server_ip = response.msg_server_ip;
+
+      console.log(MSG_server_ip);
+
+      db.run("DELETE FROM MsgIP", function (err) {
+        if (err) {
+          return console.error(err.message);
+        }
+        db.run(
+          "INSERT INTO MsgIP (msg_ip) VALUES (?)",
+          MSG_server_ip,
+          function (err) {
+            if (err) {
+              return console.error(err.message);
+            }
+          }
+        );
+      });
+
+      db.run("DELETE FROM CurUser", function (err) {
+        if (err) {
+          return console.error(err.message);
+        }
+        db.run(
+          "INSERT INTO CurUser (userid) VALUES (?)",
+          UserId,
+          function (err) {
+            if (err) {
+              return console.error(err.message);
+            }
+          }
+        );
+      });
 
       //已经拿取了正确的个人信息，现在存入数据库中
       let stmt =
-        db.prepare(`INSERT OR REPLACE INTO User (Username, Password,Nickname, Gender, Signature, Email, Phone, Birthday) 
-VALUES (?, ?, ?, ?, ?, ?, ?, ?)`);
+        db.prepare(`INSERT OR REPLACE INTO User (UserId,Username, Password,Nickname, Gender, Signature, Email, Phone, Birthday) 
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`);
       stmt.run(
+        UserId,
         username,
         password,
         nickname,
@@ -87,7 +119,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?)`);
       );
 
       //切换页面信号
-      ipcRenderer.send("LoginSuccess", response);
+      ipcRenderer.send("LoginSuccess", MSG_server_ip);
     }
   );
 }

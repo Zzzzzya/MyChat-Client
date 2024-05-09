@@ -1,6 +1,9 @@
 let PromptBox = document.querySelector(".PromptBox");
 
 export function NewPromptBox(message) {
+  if (message == null || message == "") {
+    message = "NULL";
+  }
   var div = document.createElement("div"); //创建一个div节点
   div.innerHTML = message; //加内容信息
   div.classList.add("prompt"); //加样式

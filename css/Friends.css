@@ -1,0 +1,137 @@
+#page3 {
+  height: 90%;
+  user-select: none;
+}
+
+#page3 .header {
+  width: 95%;
+  height: 10%;
+  background-color: rgba(255, 255, 255, 0.112);
+  border-radius: 16px;
+  display: flex;
+}
+
+#page3 .header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: right;
+}
+
+#page3 .input-group {
+  align-self: flex-end;
+}
+
+#page3 .header .title {
+  font-size: 1.5em;
+  letter-spacing: 2px;
+  margin: 0;
+  padding: 10px;
+}
+
+#page3 .header .input-group {
+  width: 35%;
+  height: 60%;
+  padding: 0 20px;
+  border-radius: 10px;
+
+  background-color: rgba(233, 138, 226, 0.533);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s;
+}
+
+#page3 .header .input-group:hover {
+  width: 45%;
+  background-color: #eb9ef2;
+  box-shadow: 0 5px 40px #0002;
+}
+
+#page3 .header .input-group input {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+#page3 .shell {
+  width: 95%;
+  max-height: 80%;
+  margin: 8px auto;
+  border-radius: 10px;
+  background: #fff5;
+  overflow-y: auto;
+}
+
+/* TODO: 做好看这个滑条 */
+#page3 .shell::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+#page3 .shell table {
+  width: 100%;
+}
+
+#page3 .shell td img {
+  width: 36px;
+  height: 36px;
+  margin-right: 10px;
+  border-radius: 10%;
+  vertical-align: middle;
+}
+
+#page3 .shell table,
+th,
+td {
+  border-collapse: collapse;
+  padding: 20px;
+  text-align: left;
+}
+
+#page3 thead th {
+  position: sticky;
+  top: 0;
+  background-color: #865fdffe;
+  cursor: pointer;
+  text-align: center;
+}
+
+#page3 tbody tr {
+  transition: 0.3s;
+}
+
+#page3 tbody tr:nth-child(even) {
+  background-color: rgb(227, 182, 227);
+}
+
+#page3 tbody tr:nth-child(odd) {
+  background-color: rgb(188, 127, 196);
+}
+
+#page3 tbody tr:hover {
+  background-color: white !important;
+}
+
+#page3 tbody td {
+  text-align: center;
+}
+
+#page3 .btnbox {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 10px 0;
+}
+
+#page3 .btn {
+  padding: 5px 10px;
+  border-radius: 50px;
+  text-align: center;
+}
+
+#page3 tr:nth-child(4n) .btn {
+  background-color: #86e49d;
+  color: #006b21;
+}

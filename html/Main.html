@@ -7,6 +7,7 @@
     <title>MainWindow</title>
     <link rel="stylesheet" href="../css/MainWindow.css" />
     <link rel="stylesheet" href="../css/PromptBox.css" />
+    <link rel="stylesheet" href="../css/Friends.css" />
   </head>
   <body style="-webkit-app-region: drag">
     <!-----------------------------边框栏-------------------------->
@@ -79,9 +80,11 @@
     </div>
     <!-----------------------------主窗口-------------------------->
     <div class="mainWindow">
+      <!----- page0 : Welcome -->
       <div id="page0" class="page"></div>
+
       <!-----page1 : User Profile---->
-      <div id="page1" class="page">
+      <div id="page1" class="page" style="-webkit-app-region: no-drag">
         <!----header-->
         <div class="header">
           <div class="imgBx">
@@ -106,6 +109,9 @@
           <div class="textBox">
             <div class="title">电话</div>
             <div id="userPhone" class="content">19816881066</div>
+            <div class="edit" id="phoneEdit">
+              <ion-icon name="create-outline"></ion-icon>
+            </div>
           </div>
           <div class="textBox">
             <div class="title">教育经历</div>
@@ -117,8 +123,49 @@
           </div>
         </div>
       </div>
-      <div id="page2" class="page">Page 2</div>
-      <div id="page3" class="page">Page 3</div>
+
+      <!-----page2 : Chat---->
+      <div id="page2" class="page" style="-webkit-app-region: no-drag">
+        Page 2
+      </div>
+
+      <!-----page3 : Friends---->
+      <div id="page3" class="page" style="-webkit-app-region: no-drag">
+        <section class="header">
+          <div class="title">My Friends</div>
+          <div class="input-group">
+            <input type="search" placeholder="Search..." />
+          </div>
+        </section>
+
+        <section class="shell">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>UserName</th>
+                <th>Last Contact</th>
+                <th>Operation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- <tr>
+                <td>1</td>
+                <td><img src="../src/images/logo/me.jpg" alt="" />zzzzya</td>
+                <td>2021-10-10</td>
+                <td>
+                  <div class="btnbox">
+                    <p class="btn">Chat</p>
+                    <p class="btn">Delete</p>
+                  </div>
+                </td>
+              </tr> -->
+            </tbody>
+          </table>
+        </section>
+      </div>
+
+      <!-----page4 : Settings---->
       <div id="page4" class="page">Page 4</div>
     </div>
     <script
@@ -130,7 +177,8 @@
       src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
     ></script>
   </body>
-  <script src="../js/MainPrepare.js"></script>
+  <script type="module" src="../js/MainPrepare.js"></script>
+  <script type="module" src="../js/ShowFriends.js"></script>
   <script>
     let sidebar = document.querySelector(".sidebar");
     let mainWindow = document.querySelector(".mainWindow");

@@ -28,7 +28,8 @@ let db = new sqlite3.Database(path.join(PATH_DB, "MC.db"), (err) => {
 db.run(
   `
     CREATE TABLE IF NOT EXISTS User (
-        Username CHAR(32) PRIMARY KEY NOT NULL,
+        UserId INT PRIMARY KEY NOT NULL,
+        Username CHAR(32),
         Password CHAR(32) NOT NULL,
         Nickname CHAR(32) NOT NULL,
         Gender CHAR(1),
@@ -49,14 +50,58 @@ db.run(
 db.run(
   `
   CREATE TABLE IF NOT EXISTS CurUser (
-    username CHAR(32) PRIMARY KEY NOT NULL
+    userid INT PRIMARY KEY NOT NULL
+ );
+  DELETE FROM CurUser;
+  `,
+  (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+    console.log("CurUser table created.");
+  }
+);
+
+db.run(
+  `
+  CREATE TABLE IF NOT EXISTS MsgIP (
+      msg_ip CHAR(32) PRIMARY KEY NOT NULL
  );
   `,
   (err) => {
     if (err) {
       console.error(err.message);
     }
-    console.log("User table created.");
+    console.log("MsgIP table created.");
+  }
+);
+
+db.run(
+  `
+  CREATE TABLE IF NOT EXISTS Friends (
+    relatedId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+      friendId INT NOT NULL,
+      friendName CHAR(32) NOT NULL DEFAULT 'friend',
+      friendSign CHAR(128) NOT NULL DEFAULT "",
+      lastContactTime DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+ );
+  `,
+  (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+    console.log("Friends table created.");
+    db.run(
+      `
+      DELETE FROM Friends;
+      `,
+      (err) => {
+        if (err) {
+          console.error(err.message);
+        }
+        console.log("Friends table CLEAR.");
+      }
+    );
   }
 );
 

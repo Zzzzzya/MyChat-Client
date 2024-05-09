@@ -19,6 +19,7 @@ function CreateNewWindow(htmlFile) {
 
 let LoginRegisterWindow = null;
 let MainWindow = null;
+let MSG_ip = null;
 
 app.whenReady().then(() => {
   LoginRegisterWindow = CreateNewWindow("./html/Login&Register.html");
@@ -33,7 +34,8 @@ app.addListener("window-all-closed", () => {
 });
 
 //跳转主页面
-ipcMain.on("LoginSuccess", (event, arg) => {
+ipcMain.on("LoginSuccess", (event, MSG_server_ip) => {
+  MSG_ip = MSG_server_ip;
   setTimeout(function () {
     LoginRegisterWindow.close();
     MainWindow = CreateNewWindow("./html/Main.html");
@@ -46,6 +48,11 @@ ipcMain.on("RegistSuccess", (event, arg) => {
     LoginRegisterWindow = CreateNewWindow("./html/Login&Register.html");
     console.log(arg);
   }, 2000);
+});
+
+ipcMain.on("get-variable", (event, arg) => {
+  // 假设你想获取的变量是 MSG_ip
+  event.reply("variable-value", MSG_ip);
 });
 
 ipcMain.on("Exit", (event, arg) => {

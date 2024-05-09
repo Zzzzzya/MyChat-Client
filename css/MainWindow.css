@@ -175,7 +175,7 @@ body::-webkit-scrollbar {
 
   min-height: 90%;
 
-  border-radius: 5%;
+  border-radius: 2%;
   backdrop-filter: blur(50px);
   box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.5);
@@ -290,7 +290,7 @@ body::-webkit-scrollbar {
 }
 
 #page1 {
-  bottom: 0%;
+  bottom: -100%;
 }
 
 #page2 {
@@ -298,7 +298,7 @@ body::-webkit-scrollbar {
 }
 
 #page3 {
-  bottom: -100%;
+  bottom: 0%;
 }
 
 #page4 {
