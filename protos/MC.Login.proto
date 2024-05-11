@@ -42,6 +42,8 @@ message MCLoginResponse{
     string birthday = 10;
 
     string msg_server_ip = 11;
+
+    string img = 12;
 }
 
 message MCRegistRequest{

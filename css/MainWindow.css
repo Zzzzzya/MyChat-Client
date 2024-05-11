@@ -244,6 +244,12 @@ body::-webkit-scrollbar {
   color: #333;
 }
 
+#page1 .header .sign {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 #page1 .header .Name .Gender {
   position: relative;
   top: 3px;
@@ -284,13 +290,44 @@ body::-webkit-scrollbar {
   left: 100%;
 }
 
+#page1 .editIcon {
+  width: 20px;
+  transition: 0.5s;
+}
+
+#page1 .editIcon:hover {
+  transform: scale(2);
+}
+
+#page1 .invisible {
+  visibility: hidden;
+}
+
+#page1 .EDIT {
+  position: absolute;
+  right: 5%;
+  bottom: 5%;
+}
+
+#page1 .EDIT .PageEditIcon {
+  width: 20px;
+  height: 20px;
+  transition: 0.5s;
+}
+
+#page1 .EDIT .PageEditIcon:hover {
+  width: 40px;
+  height: 40px;
+  color: #ffdbe7;
+}
+
 /*初始状态*/
 #page0 {
   bottom: 0%;
 }
 
 #page1 {
-  bottom: -100%;
+  bottom: 0%;
 }
 
 #page2 {
@@ -298,7 +335,7 @@ body::-webkit-scrollbar {
 }
 
 #page3 {
-  bottom: 0%;
+  bottom: -100%;
 }
 
 #page4 {

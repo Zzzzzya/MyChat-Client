@@ -67,6 +67,7 @@ export function TryLogin(username, password, online_status, client_version) {
       let phone = response.phone;
       let birthday = response.birthday;
       let UserId = response.user_id;
+      let img = response.img;
 
       let MSG_server_ip = response.msg_server_ip;
 
@@ -104,8 +105,8 @@ export function TryLogin(username, password, online_status, client_version) {
 
       //已经拿取了正确的个人信息，现在存入数据库中
       let stmt =
-        db.prepare(`INSERT OR REPLACE INTO User (UserId,Username, Password,Nickname, Gender, Signature, Email, Phone, Birthday) 
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`);
+        db.prepare(`INSERT OR REPLACE INTO User (UserId,Username, Password,Nickname, Gender, Signature, Email, Phone, Birthday,profile_image) 
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
       stmt.run(
         UserId,
         username,
@@ -115,7 +116,8 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`);
         signature,
         email,
         phone,
-        birthday
+        birthday,
+        img
       );
 
       //切换页面信号
@@ -142,7 +144,7 @@ export function TryRegist(username, password, nickname, email) {
 
       let status = response.code;
       if (status !== "OK") {
-        let error_message = response.error_message;
+        let error_message = response.err_msg;
         NewPromptBox(error_message);
         return;
       }

@@ -36,7 +36,8 @@ db.run(
         Signature CHAR(128),
         Email CHAR(64) NOT NULL,
         Phone CHAR(11),
-        Birthday DATE
+        Birthday DATE,
+        profile_image TEXT
     );
     `,
   (err) => {
@@ -82,7 +83,7 @@ db.run(
     relatedId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
       friendId INT NOT NULL,
       friendName CHAR(32) NOT NULL DEFAULT 'friend',
-      friendSign CHAR(128) NOT NULL DEFAULT "",
+      profile_image TEXT,
       lastContactTime DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
  );
   `,

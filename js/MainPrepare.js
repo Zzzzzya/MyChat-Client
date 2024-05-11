@@ -1,3 +1,4 @@
+import { NewPromptBox } from "./PromptBox.js";
 const sqlite3 = require("sqlite3").verbose();
 const path = require("path");
 
@@ -29,6 +30,20 @@ const MsgService = protoDescriptor.MC.Msg.MSG;
 
 let MsgClient = null;
 
+let nickname = document.querySelector(".Name .text");
+let signature = document.querySelector(".signature");
+let email = document.querySelector("#userEmail");
+let phone = document.querySelector("#userPhone");
+let birthday = document.querySelector("#userBirth");
+
+let ProfileFields = {
+  nickname: nickname,
+  signature: signature,
+  email: email,
+  phone: phone,
+  birthday: birthday,
+};
+
 // GetFriends服务调用
 export function GetFriends(userid) {
   MsgClient.GetFriends(
@@ -53,18 +68,13 @@ export function GetFriends(userid) {
       //获取好友列表
 
       let friends = response.friends;
-      let sql = `INSERT INTO Friends (friendId, friendName, friendSign, lastContactTime) VALUES (?, ?, ?, ?)`;
+      let sql = `INSERT INTO Friends (friendId, friendName, lastContactTime) VALUES (?, ?, ?)`;
       let tbody = document.querySelector("#page3 tbody");
       let index = 0;
       friends.forEach((friend) => {
         db.run(
           sql,
-          [
-            friend.friendid,
-            friend.friendname,
-            friend.friendsign,
-            friend.lastcontacttime,
-          ],
+          [friend.friendid, friend.friendname, friend.lastcontacttime],
           (err) => {
             if (err) {
               console.error(err.message);
@@ -116,17 +126,78 @@ export function GetFriends(userid) {
   );
 }
 
-let nickname = document.querySelector(".Name .text");
-let signature = document.querySelector(".signature");
-let email = document.querySelector("#userEmail");
-let phone = document.querySelector("#userPhone");
-let birthday = document.querySelector("#userBirth");
+//UpdateUserInfo服务调用
+function UpdateUserInfo(userid, field, value) {
+  MsgClient.UpdateUserInfo(
+    {
+      userid: userid,
+      field: field,
+      value: value,
+    },
+    (err, response) => {
+      if (err) {
+        console.log("An error occurred while trying to UpdateUserInfo");
+        console.error(err);
+        return;
+      }
+
+      let status = response.code;
+      if (status !== "OK") {
+        let error_message = response.err_msg;
+        console.log("UpdateUserInfo Error: " + error_message);
+        NewPromptBox("更改失败：" + error_message);
+        return;
+      }
+
+      ProfileFields[field].textContent = value;
+
+      field = field[0].toUpperCase() + field.slice(1);
+      // 更新数据库
+      db.run(
+        `UPDATE User SET ${field} = '${value}' WHERE Userid = '${userid}'`
+      );
+
+      //UpdateUserInfo Success
+      console.log("UpdateUserInfo Success");
+      NewPromptBox("更改成功");
+    }
+  );
+}
+
+function UpdateUserHead(userid, value) {
+  MsgClient.UpdateUserHead(
+    {
+      userid: userid,
+      image_data: value,
+    },
+    (err, response) => {
+      if (err) {
+        console.log("An error occurred while trying to UpdateUserHead");
+        console.error(err);
+        return;
+      }
+
+      let status = response.code;
+      if (status !== "OK") {
+        let error_message = response.err_msg;
+        console.log("UpdateUserHead Error: " + error_message);
+        NewPromptBox("网络问题 更改失败：" + error_message);
+        return;
+      }
+
+      //UpdateUserHead Success
+      console.log("UpdateUserHead Success");
+      NewPromptBox("更改成功");
+    }
+  );
+}
 
 let sql0 = `SELECT * FROM MsgIP LIMIT 1`;
 let sql1 = `SELECT * FROM CurUser LIMIT 1`;
 let userid = 0;
 let msg_ip = null;
 
+// 准备阶段服务调用
 db.get(sql0, (err, row) => {
   if (err) {
     console.error(err.message);
@@ -164,6 +235,9 @@ db.get(sql0, (err, row) => {
         email.textContent = row.Email;
         phone.textContent = row.Phone;
         birthday.textContent = row.Birthday;
+
+        let imgElement = document.querySelector("#page1 img");
+        imgElement.src = row.profile_image;
       } else {
         console.log(`No user found with the username ${userid}`);
       }
@@ -174,4 +248,138 @@ db.get(sql0, (err, row) => {
     let tbody = document.querySelector("#page3 tbody");
     let sql3 = `SELECT * FROM Friends`;
   });
+});
+
+// page1 功能
+// 编辑按钮
+let page1PageTextEditIcon = document.querySelector(
+  "#page1 .EDIT #Page1TextEdit"
+);
+let page1PageImgEditIcon = document.querySelector("#page1 .EDIT #Page1ImgEdit");
+let overlay = document.querySelector(".overlay");
+let Page1PopTextEdit = document.querySelector("#Page1PopTextEdit");
+let Page1PopImgEdit = document.querySelector("#Page1PopImgEdit");
+
+page1PageTextEditIcon.addEventListener("click", () => {
+  overlay.style.display = "block";
+  Page1PopTextEdit.style.display = "block";
+});
+
+page1PageImgEditIcon.addEventListener("click", () => {
+  overlay.style.display = "block";
+  Page1PopImgEdit.style.display = "block";
+});
+
+// 关闭按钮
+let Page1PopTextEditClose = document.querySelector(
+  "#Page1PopTextEdit .Popclosebtn"
+);
+Page1PopTextEditClose.addEventListener("click", () => {
+  overlay.style.display = "none";
+  Page1PopTextEdit.style.display = "none";
+});
+
+let Page1PopImgEditClose = document.querySelector(
+  "#Page1PopImgEdit .Popclosebtn"
+);
+Page1PopImgEditClose.addEventListener("click", () => {
+  overlay.style.display = "none";
+  Page1PopImgEdit.style.display = "none";
+});
+
+// 提交按钮
+let fieldToEnglish = {
+  昵称: "nickname",
+  生日: "birthday",
+  邮箱: "email",
+  电话: "phone",
+  签名: "signature",
+  性别: "gender",
+};
+let Page1PopTextField = document.querySelector("#Page1PopTextField");
+let Page1PopTextValue = document.querySelector("#Page1PopTextValue");
+let Page1PopTextSubmit = document.querySelector("#Page1PopTextSubmit");
+Page1PopTextSubmit.addEventListener("click", () => {
+  let field = Page1PopTextField.value;
+  let value = Page1PopTextValue.value;
+
+  if (field in fieldToEnglish) {
+    field = fieldToEnglish[field];
+  } else {
+    console.log("未知的字段名: " + field);
+    return;
+  }
+
+  console.log(field);
+  console.log(value);
+  UpdateUserInfo(userid, field, value);
+  overlay.style.display = "none";
+  Page1PopTextEdit.style.display = "none";
+});
+
+let Page1ImgSubmit = document.querySelector("#Page1PopImgSubmit");
+let Page1ImgValue = document.querySelector("#Page1PopImgValue");
+Page1ImgSubmit.addEventListener("click", () => {
+  let file = Page1ImgValue.files[0];
+  let reader = new FileReader();
+  reader.onload = function (event) {
+    let img = new Image();
+    img.onload = function () {
+      let canvas = document.createElement("canvas");
+      let ctx = canvas.getContext("2d");
+      let SIZE = 1024;
+      let width = img.width;
+      let height = img.height;
+      let startX = 0;
+      let startY = 0;
+      let cropWidth = width;
+      let cropHeight = height;
+
+      // 如果图片的宽度大于 SIZE，那么计算截取的起始位置和宽度
+      if (width > SIZE) {
+        startX = (width - SIZE) / 2;
+        cropWidth = SIZE;
+      }
+
+      // 如果图片的高度大于 SIZE，那么计算截取的起始位置和高度
+      if (height > SIZE) {
+        startY = (height - SIZE) / 2;
+        cropHeight = SIZE;
+      }
+
+      canvas.width = cropWidth;
+      canvas.height = cropHeight;
+      ctx.drawImage(
+        img,
+        startX,
+        startY,
+        cropWidth,
+        cropHeight,
+        0,
+        0,
+        cropWidth,
+        cropHeight
+      );
+
+      let dataUrl = canvas.toDataURL("image/jpg");
+      let imgElement = document.querySelector("#page1 img");
+      imgElement.src = dataUrl;
+
+      //更新数据库profile_image
+
+      let sql = `UPDATE User SET profile_image = ? WHERE UserId = ?`;
+      db.run(sql, [dataUrl, userid], function (err) {
+        if (err) {
+          return console.error(err.message);
+        }
+        console.log(`Row(s) updated: ${this.changes}`);
+      });
+      UpdateUserHead(userid, dataUrl);
+    };
+    img.src = event.target.result;
+  };
+  reader.readAsDataURL(file);
+
+  overlay.style.display = "none";
+  Page1PopImgEdit.style.display = "none";
 });

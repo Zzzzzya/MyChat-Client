@@ -8,8 +8,52 @@
     <link rel="stylesheet" href="../css/MainWindow.css" />
     <link rel="stylesheet" href="../css/PromptBox.css" />
     <link rel="stylesheet" href="../css/Friends.css" />
+    <link rel="stylesheet" href="../css/popup.css" />
   </head>
   <body style="-webkit-app-region: drag">
+    <div class="PromptBox"></div>
+    <!---------------------响应式弹窗部分-------------------------------->
+    <div class="overlay"></div>
+    <!----Page1 POP 文字编辑弹窗 ---->
+    <div class="popup" id="Page1PopTextEdit">
+      <label>你想要修改森模:</label>
+      <select id="Page1PopTextField">
+        <option>昵称</option>
+        <option>性别</option>
+        <option>签名</option>
+        <option>邮箱</option>
+        <option>电话</option>
+        <option>生日</option>
+      </select>
+      <br /><br />
+      <label>修改为：</label>
+
+      <input
+        id="Page1PopTextValue"
+        type="text"
+        value=""
+        placeholder="请输入修改内容"
+      />
+
+      <br /><br />
+      <button class="Popclosebtn">关闭</button>
+      <button type="submit" id="Page1PopTextSubmit">提交</button>
+    </div>
+    <!----Page1 POP 图片编辑弹窗 ---->
+    <div class="popup" id="Page1PopImgEdit">
+      <label>请上传图片</label>
+      <input
+        id="Page1PopImgValue"
+        type="file"
+        value="Page1imageEdit"
+        accept="image/*"
+      />
+
+      <br /><br />
+      <button class="Popclosebtn">关闭</button>
+      <button id="Page1PopImgSubmit" type="submit">上传</button>
+    </div>
+
     <!-----------------------------边框栏-------------------------->
     <div class="sidebar">
       <ul>
@@ -88,17 +132,24 @@
         <!----header-->
         <div class="header">
           <div class="imgBx">
-            <img src="../src/images/UserInfo/me.jpg" />
+            <img id="Page1Head" src="../src/images/UserInfo/me.jpg" />
           </div>
 
           <div class="Name">
             <div class="text">Zzzzzya</div>
             <div class="Gender">
               <ion-icon name="female-outline"></ion-icon>
+              <ion-icon
+                id="genderEdit"
+                name="create-outline"
+                class="editIcon hidden"
+              ></ion-icon>
             </div>
           </div>
 
-          <div class="signature">Happy everyday!</div>
+          <div class="sign">
+            <div class="signature">Happy everyday!</div>
+          </div>
         </div>
         <!---body-->
         <div class="pagebody">
@@ -109,9 +160,6 @@
           <div class="textBox">
             <div class="title">电话</div>
             <div id="userPhone" class="content">19816881066</div>
-            <div class="edit" id="phoneEdit">
-              <ion-icon name="create-outline"></ion-icon>
-            </div>
           </div>
           <div class="textBox">
             <div class="title">教育经历</div>
@@ -121,6 +169,19 @@
             <div class="title">生日</div>
             <div id="userBirth" class="content">04.29</div>
           </div>
+        </div>
+
+        <div class="EDIT">
+          <ion-icon
+            name="create-outline"
+            class="PageEditIcon"
+            id="Page1TextEdit"
+          ></ion-icon>
+          <ion-icon
+            name="image-outline"
+            class="PageEditIcon"
+            id="Page1ImgEdit"
+          ></ion-icon>
         </div>
       </div>
 
@@ -179,6 +240,7 @@
   </body>
   <script type="module" src="../js/MainPrepare.js"></script>
   <script type="module" src="../js/ShowFriends.js"></script>
+  <script type="module" src="../js/PromptBox.js"></script>
   <script>
     let sidebar = document.querySelector(".sidebar");
     let mainWindow = document.querySelector(".mainWindow");
