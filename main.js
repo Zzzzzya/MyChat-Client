@@ -1,6 +1,8 @@
 const { app, ipcMain, BrowserWindow } = require("electron");
 const { db } = require("./js/sql.js");
 
+let instanceCount = 0;
+
 function CreateNewWindow(htmlFile) {
   let win = new BrowserWindow({
     frame: false,
@@ -22,6 +24,9 @@ let MainWindow = null;
 let MSG_ip = null;
 
 app.whenReady().then(() => {
+  instanceCount++;
+  const userDataPath = app.getPath("userData");
+  app.setPath("userData", `${userDataPath}_${instanceCount}`);
   LoginRegisterWindow = CreateNewWindow("./html/Login&Register.html");
 });
 

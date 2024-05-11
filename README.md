@@ -13,7 +13,8 @@ MyChat-Client by electron
  ```
  npm install
  npm install electron --save-dev
- npm install grpc
+ npm install @grpc/grpc-js
+ npm install sqlite3
  ```
  ```
  运行：
