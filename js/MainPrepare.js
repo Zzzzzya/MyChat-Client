@@ -68,13 +68,18 @@ export function GetFriends(userid) {
       //获取好友列表
 
       let friends = response.friends;
-      let sql = `INSERT INTO Friends (friendId, friendName, lastContactTime) VALUES (?, ?, ?)`;
+      let sql = `INSERT INTO Friends (friendId, friendName, profile_image, lastContactTime) VALUES (?, ?, ?)`;
       let tbody = document.querySelector("#page3 tbody");
       let index = 0;
       friends.forEach((friend) => {
         db.run(
           sql,
-          [friend.friendid, friend.friendname, friend.lastcontacttime],
+          [
+            friend.friendid,
+            friend.friendname,
+            friend.friendsign,
+            friend.lastcontacttime,
+          ],
           (err) => {
             if (err) {
               console.error(err.message);
@@ -90,7 +95,7 @@ export function GetFriends(userid) {
 
             let td2 = document.createElement("td");
             let img = document.createElement("img");
-            img.src = "../src/images/logo/me.jpg";
+            img.src = friend.friendsign;
             img.alt = "";
             td2.appendChild(img);
             td2.appendChild(document.createTextNode(friend.friendname));
@@ -149,7 +154,16 @@ function UpdateUserInfo(userid, field, value) {
         return;
       }
 
-      ProfileFields[field].textContent = value;
+      if (field in ProfileFields) ProfileFields[field].textContent = value;
+      else if (field == "gender") {
+        if (value == "1") {
+          femaleicon.style.display = "block";
+          maleicon.style.display = "none";
+        } else {
+          femaleicon.style.display = "none";
+          maleicon.style.display = "block";
+        }
+      }
 
       field = field[0].toUpperCase() + field.slice(1);
       // 更新数据库
@@ -235,6 +249,12 @@ db.get(sql0, (err, row) => {
         email.textContent = row.Email;
         phone.textContent = row.Phone;
         birthday.textContent = row.Birthday;
+
+        let maleicon = document.querySelector("#maleicon");
+        let femaleicon = document.querySelector("#femaleicon");
+
+        if (row.gender == "B") femaleicon.style.display = "none";
+        else maleicon.style.display = "none";
 
         let imgElement = document.querySelector("#page1 img");
         imgElement.src = row.profile_image;
@@ -382,4 +402,13 @@ Page1ImgSubmit.addEventListener("click", () => {
 
   overlay.style.display = "none";
   Page1PopImgEdit.style.display = "none";
+});
+
+// page2 功能
+
+// page3 功能
+// 添加好友按钮
+let page3AddFriend = document.querySelector("#FriendsAdd");
+page3AddFriend.addEventListener("click", () => {
+  page3AddFriend.classList.toggle("active");
 });

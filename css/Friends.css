@@ -18,6 +18,25 @@
   text-align: right;
 }
 
+#page3 #FriendsAdd {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  left: 5%;
+  top: 6%;
+  border-radius: 25%;
+  transition: 0.5s;
+}
+
+#page3 #FriendsAdd:hover {
+  box-shadow: 2px 2px 3px rgba(240, 168, 236, 0.5);
+}
+
+#page3 .active {
+  background-color: #f0a8ec;
+  color: white;
+}
+
 #page3 .input-group {
   align-self: flex-end;
 }
