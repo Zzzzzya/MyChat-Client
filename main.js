@@ -32,7 +32,6 @@ app.whenReady().then(() => {
     Buffer.from(cwd).toString("base64")
   ); // 使用 base64 编码来避免路径中的特殊字符
   app.setPath("userData", uniquePath);
-  app.setPath("userData", `${userDataPath}_${instanceCount}`);
   LoginRegisterWindow = CreateNewWindow("./html/Login&Register.html");
 });
 
