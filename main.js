@@ -1,5 +1,6 @@
 const { app, ipcMain, BrowserWindow } = require("electron");
 const { db } = require("./js/sql.js");
+const path = require("path");
 
 let instanceCount = 0;
 
@@ -24,8 +25,13 @@ let MainWindow = null;
 let MSG_ip = null;
 
 app.whenReady().then(() => {
-  instanceCount++;
   const userDataPath = app.getPath("userData");
+  const cwd = process.cwd(); // 获取当前工作目录
+  const uniquePath = path.join(
+    userDataPath,
+    Buffer.from(cwd).toString("base64")
+  ); // 使用 base64 编码来避免路径中的特殊字符
+  app.setPath("userData", uniquePath);
   app.setPath("userData", `${userDataPath}_${instanceCount}`);
   LoginRegisterWindow = CreateNewWindow("./html/Login&Register.html");
 });
