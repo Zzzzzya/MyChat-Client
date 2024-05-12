@@ -20,6 +20,7 @@ service MSG{
 
     /*Chat*/
     rpc Chat(stream Message) returns (stream Message);
+    rpc WriteChat(stream Message) returns (stream Message);
 }
 
 message Message{

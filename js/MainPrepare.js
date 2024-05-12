@@ -46,6 +46,7 @@ let ProfileFields = {
 
 // Chat 服务调用
 let chatStream = null;
+let writechatStream = null;
 
 //好友请求消息 - 发送
 function AddFriendReq(userid, friendname) {
@@ -55,6 +56,18 @@ function AddFriendReq(userid, friendname) {
     sendertype: "id",
     recievername: friendname,
     recievertype: "name",
+  });
+}
+
+//上线消息 - 发送
+function Online(userid) {
+  writechatStream.write({
+    type: "Online",
+    sender: userid,
+  });
+  chatStream.write({
+    type: "Online",
+    sender: userid,
   });
 }
 
@@ -237,6 +250,7 @@ db.get(sql0, (err, row) => {
 
   MsgClient = new MsgService(msg_ip, grpc.credentials.createInsecure());
 
+  writechatStream = MsgClient.WriteChat();
   chatStream = MsgClient.Chat();
 
   db.get(sql1, (err, row) => {
@@ -281,18 +295,24 @@ db.get(sql0, (err, row) => {
     });
 
     GetFriends(userid);
-
+    Online(userid);
     let tbody = document.querySelector("#page3 tbody");
     let sql3 = `SELECT * FROM Friends`;
   });
 
   //chat流大汇总
-  chatStream.on("data", (data) => {
+  writechatStream.on("data", (data) => {
     let msg = data.msg;
     if (msg === "FriendADD:OK") {
       NewPromptBox("好友请求成功");
       let page3Refresh = document.querySelector("#FriendsRefresh");
       page3Refresh.click();
+    } else if (msg === "Friend:New") {
+      NewPromptBox("新好友!");
+      let page3Refresh = document.querySelector("#FriendsRefresh");
+      page3Refresh.click();
+    } else {
+      console.log("yse", msg);
     }
   });
 });
