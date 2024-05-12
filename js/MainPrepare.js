@@ -44,6 +44,20 @@ let ProfileFields = {
   birthday: birthday,
 };
 
+// Chat 服务调用
+let chatStream = null;
+
+//好友请求消息 - 发送
+function AddFriendReq(userid, friendname) {
+  chatStream.write({
+    type: "Friend:Req",
+    sender: userid,
+    sendertype: "id",
+    recievername: friendname,
+    recievertype: "name",
+  });
+}
+
 // GetFriends服务调用
 export function GetFriends(userid) {
   MsgClient.GetFriends(
@@ -68,7 +82,7 @@ export function GetFriends(userid) {
       //获取好友列表
 
       let friends = response.friends;
-      let sql = `INSERT INTO Friends (friendId, friendName, profile_image, lastContactTime) VALUES (?, ?, ?)`;
+      let sql = `INSERT INTO Friends (friendId, friendName, profile_image, lastContactTime) VALUES (?, ?,?, ?)`;
       let tbody = document.querySelector("#page3 tbody");
       let index = 0;
       friends.forEach((friend) => {
@@ -178,6 +192,7 @@ function UpdateUserInfo(userid, field, value) {
   );
 }
 
+//UpdateUserHead服务调用
 function UpdateUserHead(userid, value) {
   MsgClient.UpdateUserHead(
     {
@@ -221,6 +236,8 @@ db.get(sql0, (err, row) => {
   console.log("获取到的msg_ip是：" + msg_ip);
 
   MsgClient = new MsgService(msg_ip, grpc.credentials.createInsecure());
+
+  chatStream = MsgClient.Chat();
 
   db.get(sql1, (err, row) => {
     if (err) {
@@ -267,6 +284,16 @@ db.get(sql0, (err, row) => {
 
     let tbody = document.querySelector("#page3 tbody");
     let sql3 = `SELECT * FROM Friends`;
+  });
+
+  //chat流大汇总
+  chatStream.on("data", (data) => {
+    let msg = data.msg;
+    if (msg === "FriendADD:OK") {
+      NewPromptBox("好友请求成功");
+      let page3Refresh = document.querySelector("#FriendsRefresh");
+      page3Refresh.click();
+    }
   });
 });
 
@@ -408,7 +435,34 @@ Page1ImgSubmit.addEventListener("click", () => {
 
 // page3 功能
 // 添加好友按钮
+let page3PopAddFriend = document.querySelector("#FriendsAddPop");
 let page3AddFriend = document.querySelector("#FriendsAdd");
 page3AddFriend.addEventListener("click", () => {
-  page3AddFriend.classList.toggle("active");
+  overlay.style.display = "block";
+  page3PopAddFriend.style.display = "block";
+});
+
+let Page3PopAddFriendClose = document.querySelector(
+  "#FriendsAddPop .Popclosebtn"
+);
+Page3PopAddFriendClose.addEventListener("click", () => {
+  overlay.style.display = "none";
+  page3PopAddFriend.style.display = "none";
+});
+
+let Page3PopAddFriendSubmit = document.querySelector("#FriendsAddPopSubmit");
+Page3PopAddFriendSubmit.addEventListener("click", () => {
+  let friendName = document.querySelector("#FriendsAddPop input").value;
+  AddFriendReq(userid, friendName);
+  console.log(friendName);
+  overlay.style.display = "none";
+  page3PopAddFriend.style.display = "none";
+});
+
+// 刷新好友列表
+let page3Refresh = document.querySelector("#FriendsRefresh");
+page3Refresh.addEventListener("click", () => {
+  let tbody = document.querySelector("#page3 tbody");
+  tbody.innerHTML = "";
+  GetFriends(userid);
 });

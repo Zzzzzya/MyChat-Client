@@ -54,6 +54,20 @@
       <button id="Page1PopImgSubmit" type="submit">上传</button>
     </div>
 
+    <!----Page3 Friends POP 添加好友弹窗 ---->
+    <div class="popup" id="FriendsAddPop">
+      <label>请输入好友ID:</label>
+      <input
+        id="FriendsAddPopValue"
+        type="text"
+        value=""
+        placeholder="请输入想加的好友昵称"
+      />
+      <br /><br />
+      <button class="Popclosebtn">关闭</button>
+      <button id="FriendsAddPopSubmit" type="submit">提交</button>
+    </div>
+
     <!-----------------------------边框栏-------------------------->
     <div class="sidebar">
       <ul>
@@ -202,6 +216,7 @@
         </section>
 
         <section class="shell">
+          <ion-icon name="refresh-outline" id="FriendsRefresh"></ion-icon>
           <table>
             <thead>
               <tr>

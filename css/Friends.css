@@ -18,6 +18,20 @@
   text-align: right;
 }
 
+#page3 #FriendsRefresh {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  left: 12%;
+  top: 6%;
+  border-radius: 25%;
+  transition: 0.5s;
+}
+
+#page3 #FriendsRefresh:hover {
+  box-shadow: 2px 2px 3px rgba(240, 168, 236, 0.5);
+}
+
 #page3 #FriendsAdd {
   position: absolute;
   width: 30px;
