@@ -12,7 +12,8 @@ logout.addEventListener("click", () => {
 });
 
 //db文件夹绝对路径
-const PATH_DB = "D:\\Files\\Code\\Web\\MyChat\\db";
+const PATH_DB = path.join(__dirname, "..\\db");
+console.log("PATH_DB", PATH_DB);
 
 //连接数据库
 let db = new sqlite3.Database(path.join(PATH_DB, "MC.db"), (err) => {
