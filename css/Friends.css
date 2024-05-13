@@ -99,8 +99,7 @@
 
 /* TODO: 做好看这个滑条 */
 #page3 .shell::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 0px;
 }
 
 #page3 .shell table {
@@ -158,10 +157,14 @@ td {
   margin: 10px 0;
 }
 
-#page3 .btn {
+#page3 .Chatbtn {
   padding: 5px 10px;
   border-radius: 50px;
   text-align: center;
+}
+
+#page3 .Chatbtn:hover {
+  color: red;
 }
 
 #page3 tr:nth-child(4n) .btn {

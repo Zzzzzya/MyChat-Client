@@ -1,9 +1,15 @@
 import { NewPromptBox } from "./PromptBox.js";
+const { ipcRenderer } = require("electron");
 const sqlite3 = require("sqlite3").verbose();
 const path = require("path");
 
 const grpc = require("@grpc/grpc-js");
 const protoLoader = require("@grpc/proto-loader");
+
+let logout = document.querySelector("#Logout");
+logout.addEventListener("click", () => {
+  ipcRenderer.send("Logout");
+});
 
 //db文件夹绝对路径
 const PATH_DB = "D:\\Files\\Code\\Web\\MyChat\\db";
@@ -35,6 +41,53 @@ let signature = document.querySelector(".signature");
 let email = document.querySelector("#userEmail");
 let phone = document.querySelector("#userPhone");
 let birthday = document.querySelector("#userBirth");
+
+let curFriend = null;
+
+function ReshowPage2(friendid, friendname, friendimage) {
+  let page2Name = document.querySelector("#page2 .Name .text");
+  let page2head = document.querySelector("#Page2Head");
+  page2head.src = friendimage;
+  page2Name.textContent = friendname;
+}
+
+function ReshowMessage(userid, friendid) {
+  console.log("ReshowMessage");
+  console.log("curFriend", userid);
+  let messagelist = document.querySelector("#message-list");
+  let sql = `SELECT * FROM Messages WHERE sender = '${curFriend}' OR receiver = '${curFriend}'`;
+  db.all(sql, [], (err, rows) => {
+    if (err) {
+      throw err;
+    }
+    messagelist.innerHTML = "";
+    let index = 0;
+    rows.forEach((row) => {
+      console.log("row", row);
+      let msgBox;
+      if (row.receiver == friendid) {
+        msgBox = document.createElement("div");
+        msgBox.className = "MyMsgBox";
+        msgBox.innerHTML = `
+      <div class="MyMsg">
+        <div class="text">${row.messageContent}</div>
+        <div class="time hidden">${row.messageTime}</div>
+      </div>
+    `;
+      } else {
+        msgBox = document.createElement("div");
+        msgBox.className = "FriendMsgBox";
+        msgBox.innerHTML = `
+      <div class="FriendMsg">
+        <div class="text">${row.messageContent}</div>
+        <div class="time hidden">${row.messageTime}</div>
+      </div>
+    `;
+      }
+      messagelist.appendChild(msgBox);
+    });
+  });
+}
 
 let ProfileFields = {
   nickname: nickname,
@@ -68,6 +121,15 @@ function Online(userid) {
   chatStream.write({
     type: "Online",
     sender: userid,
+  });
+}
+
+function MessageSend(userid, friendid, msg) {
+  chatStream.write({
+    type: "MessageSend",
+    sender: userid,
+    reciever: friendid,
+    msg: msg,
   });
 }
 
@@ -134,10 +196,24 @@ export function GetFriends(userid) {
             let div = document.createElement("div");
             div.className = "btnbox";
             let p1 = document.createElement("p");
-            p1.className = "btn";
+            p1.className = "Chatbtn";
             p1.textContent = "Chat";
+            p1.addEventListener("click", () => {
+              console.log("Chat");
+
+              curFriend = friend.friendid;
+              ReshowPage2(
+                friend.friendid,
+                friend.friendname,
+                friend.friendsign
+              );
+              ReshowMessage(userid, friend.friendid);
+
+              let a2 = document.querySelector(".chat");
+              a2.click();
+            });
             let p2 = document.createElement("p");
-            p2.className = "btn";
+            p2.className = "Deletebtn";
             p2.textContent = "Delete";
             div.appendChild(p1);
             div.appendChild(p2);
@@ -151,6 +227,46 @@ export function GetFriends(userid) {
 
             // 将 tr 元素添加到 tbody 元素中
             tbody.appendChild(tr);
+          }
+        );
+      });
+    }
+  );
+}
+
+export function GetMessage(userid) {
+  MsgClient.GetMessage(
+    {
+      userid: userid,
+    },
+    (err, response) => {
+      if (err) {
+        console.log("An error occurred while trying to GetMessage");
+        console.error(err);
+        return;
+      }
+
+      let status = response.code;
+      if (status !== "OK") {
+        let error_message = response.errmsg;
+        console.log("GetFriends Error: " + error_message);
+        return;
+      }
+
+      //GetMessage Success
+      //获取好友列表
+
+      let messages = response.messages;
+      let sql = `INSERT INTO Messages (sender, receiver, messageContent, messageTime) VALUES (?, ?,?, ?)`;
+      let index = 0;
+      messages.forEach((message) => {
+        db.run(
+          sql,
+          [message.sender, message.reciever, message.msg, message.time],
+          (err) => {
+            if (err) {
+              console.error(err.message);
+            }
           }
         );
       });
@@ -295,6 +411,7 @@ db.get(sql0, (err, row) => {
     });
 
     GetFriends(userid);
+    GetMessage(userid);
     Online(userid);
     let tbody = document.querySelector("#page3 tbody");
     let sql3 = `SELECT * FROM Friends`;
@@ -311,6 +428,47 @@ db.get(sql0, (err, row) => {
       NewPromptBox("新好友!");
       let page3Refresh = document.querySelector("#FriendsRefresh");
       page3Refresh.click();
+    } else if (msg === "Message:OK") {
+      let sql = `INSERT INTO Messages (sender, receiver, messageContent, messageTime) VALUES (?, ?,?, ?)`;
+      db.run(sql, [data.sender, data.reciever, data.type, data.time], (err) => {
+        if (err) {
+          console.error(err.message);
+        }
+        let messagelist = document.querySelector("#message-list");
+        let msgBox;
+        msgBox = document.createElement("div");
+        msgBox.className = "MyMsgBox";
+        msgBox.innerHTML = `
+      <div class="MyMsg">
+        <div class="text">${data.type}</div>
+        <div class="time hidden">${data.time}</div>
+      </div>
+    `;
+
+        messagelist.appendChild(msgBox);
+      });
+    } else if (msg === "Message:New") {
+      let sql = `INSERT INTO Messages (sender, receiver, messageContent, messageTime) VALUES (?, ?,?, ?)`;
+      db.run(sql, [data.sender, data.reciever, data.type, data.time], (err) => {
+        if (err) {
+          console.error(err.message);
+        }
+        NewPromptBox("New News!");
+        if (curFriend == data.sender) {
+          let messagelist = document.querySelector("#message-list");
+          let msgBox;
+          msgBox = document.createElement("div");
+          msgBox.className = "FriendMsgBox";
+          msgBox.innerHTML = `
+      <div class="FriendMsg">
+        <div class="text">${data.type}</div>
+        <div class="time hidden">${data.time}</div>
+      </div>
+    `;
+
+          messagelist.appendChild(msgBox);
+        }
+      });
     } else {
       console.log("yse", msg);
     }
@@ -452,6 +610,12 @@ Page1ImgSubmit.addEventListener("click", () => {
 });
 
 // page2 功能
+let page2Send = document.querySelector("#send-button");
+let Content = document.querySelector("#message-text");
+page2Send.addEventListener("click", () => {
+  MessageSend(userid, curFriend, Content.value);
+  Content.value = "";
+});
 
 // page3 功能
 // 添加好友按钮

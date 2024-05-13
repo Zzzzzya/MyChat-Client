@@ -15,6 +15,7 @@
 body {
   min-height: 100vh;
   background: var(--clr);
+  overflow: hidden;
 }
 
 body::-webkit-scrollbar {
@@ -172,9 +173,7 @@ body::-webkit-scrollbar {
   margin: 36px;
   padding: 10px;
   min-width: 80%;
-
-  min-height: 90%;
-
+  height: 90%;
   border-radius: 2%;
   backdrop-filter: blur(50px);
   box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
@@ -327,11 +326,11 @@ body::-webkit-scrollbar {
 }
 
 #page1 {
-  bottom: 0%;
+  bottom: -100%;
 }
 
 #page2 {
-  bottom: -100%;
+  bottom: 0%;
 }
 
 #page3 {

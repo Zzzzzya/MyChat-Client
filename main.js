@@ -68,3 +68,7 @@ ipcMain.on("get-variable", (event, arg) => {
 ipcMain.on("Exit", (event, arg) => {
   app.quit();
 });
+
+ipcMain.on("Logout", (event, arg) => {
+  app.quit();
+});

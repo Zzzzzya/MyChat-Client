@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../css/PromptBox.css" />
     <link rel="stylesheet" href="../css/Friends.css" />
     <link rel="stylesheet" href="../css/popup.css" />
+    <link rel="stylesheet" href="../css/Chat.css" />
   </head>
   <body style="-webkit-app-region: drag">
     <div class="PromptBox"></div>
@@ -202,7 +203,42 @@
 
       <!-----page2 : Chat---->
       <div id="page2" class="page" style="-webkit-app-region: no-drag">
-        Page 2
+        <section class="top">
+          <div class="imgBx">
+            <img id="Page2Head" src="../src/images/UserInfo/me.jpg" />
+          </div>
+          <div class="Name">
+            <div class="text">Zzzzzya</div>
+          </div>
+        </section>
+        <section class="ChatMain">
+          <div id="chat-container">
+            <div id="message-list">
+              <!-- 消息将会在这里显示 -->
+              <div class="FriendMsgBox">
+                <div class="FriendMsg">
+                  <div class="text">123</div>
+                  <div class="time hidden">2024-4-29 00:00</div>
+                </div>
+              </div>
+
+              <div class="MyMsgBox">
+                <div class="MyMsg">
+                  <div class="text">123</div>
+                  <div class="time hidden">2024-4-29 00:00</div>
+                </div>
+              </div>
+            </div>
+            <div id="message-input">
+              <input
+                type="text"
+                id="message-text"
+                placeholder="Type a message..."
+              />
+              <button id="send-button">Send</button>
+            </div>
+          </div>
+        </section>
       </div>
 
       <!-----page3 : Friends---->

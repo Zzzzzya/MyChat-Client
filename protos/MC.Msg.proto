@@ -17,6 +17,7 @@ service MSG{
     /*GET*/
     rpc GetUserInfo (GetUserInfoReq) returns (GetUserInfoRes);
     rpc GetFriends (UserID) returns (UserIDList);
+    rpc GetMessage (UserID) returns (MessageList);
 
     /*Chat*/
     rpc Chat(stream Message) returns (stream Message);
@@ -35,6 +36,12 @@ message Message{
     string recievername = 9;
     string sendername = 10;
     
+}
+
+message MessageList{
+    MCResponseStatusCode code = 1;
+    string errmsg = 2;
+    repeated Message messages = 3;
 }
 
 message UserID {
