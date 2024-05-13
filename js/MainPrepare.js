@@ -55,7 +55,7 @@ function ReshowMessage(userid, friendid) {
   console.log("ReshowMessage");
   console.log("curFriend", userid);
   let messagelist = document.querySelector("#message-list");
-  let sql = `SELECT * FROM Messages WHERE sender = '${curFriend}' OR receiver = '${curFriend}'`;
+  let sql = `SELECT * FROM Messages WHERE sender = '${curFriend}' OR receiver = '${curFriend}' ORDER BY messageTime ASC`;
   db.all(sql, [], (err, rows) => {
     if (err) {
       throw err;
@@ -86,6 +86,7 @@ function ReshowMessage(userid, friendid) {
       }
       messagelist.appendChild(msgBox);
     });
+    messagelist.scrollTop = messagelist.scrollHeight;
   });
 }
 
@@ -446,6 +447,7 @@ db.get(sql0, (err, row) => {
     `;
 
         messagelist.appendChild(msgBox);
+        messagelist.scrollTop = messagelist.scrollHeight;
       });
     } else if (msg === "Message:New") {
       let sql = `INSERT INTO Messages (sender, receiver, messageContent, messageTime) VALUES (?, ?,?, ?)`;
@@ -467,6 +469,7 @@ db.get(sql0, (err, row) => {
     `;
 
           messagelist.appendChild(msgBox);
+          messagelist.scrollTop = messagelist.scrollHeight;
         }
       });
     } else {
