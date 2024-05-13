@@ -106,32 +106,27 @@ db.run(
   }
 );
 
-db.run(
-  `CREATE TABLE IF NOT EXISTS Messages (
-  messageId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-  sender CHAR(32) NOT NULL,
-  receiver CHAR(32) NOT NULL,
-  messageContent TEXT NOT NULL,
-  messageTime DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-);`,
-  (err) => {
-    if (err) {
-      console.error(err.message);
-    }
-    console.log("Messages table Droped.");
-    db.run(
-      `
-    DELETE FROM Messages;
-    `,
-      (err) => {
-        if (err) {
-          console.error(err.message);
-        }
-        console.log("Messages table created.");
-      }
-    );
+db.run(`DROP TABLE IF EXISTS Messages;`, (err) => {
+  if (err) {
+    console.error(err.message);
   }
-);
+  console.log("Messages table Droped.");
+  db.run(
+    `CREATE TABLE IF NOT EXISTS Messages (
+        messageId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        sender CHAR(32) NOT NULL,
+        receiver CHAR(32) NOT NULL,
+        messageContent TEXT NOT NULL,
+        messageTime DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+      );`,
+    (err) => {
+      if (err) {
+        console.error(err.message);
+      }
+      console.log("Messages table created.");
+    }
+  );
+});
 
 //关闭数据库
 db.close((err) => {
