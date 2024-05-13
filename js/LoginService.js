@@ -30,7 +30,7 @@ const protoDescriptor = grpc.loadPackageDefinition(packageDefinition);
 const LoginService = protoDescriptor.MC.Login.MCLogin;
 
 export const LoginClient = new LoginService(
-  "192.168.146.131:50051",
+  "16b677ae94161365.natapp.cc:50051",
   grpc.credentials.createInsecure()
 );
 

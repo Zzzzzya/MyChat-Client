@@ -330,7 +330,7 @@ body::-webkit-scrollbar {
 }
 
 #page2 {
-  bottom: 0%;
+  bottom: -100%;
 }
 
 #page3 {
@@ -339,4 +339,12 @@ body::-webkit-scrollbar {
 
 #page4 {
   bottom: -100%;
+}
+
+#page0 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
 }
