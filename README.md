@@ -1,7 +1,7 @@
 # MyChat-Client
 MyChat-Client by electron
 
-仍在开发中~
+[bilibili视频演示](https://www.bilibili.com/video/BV1ny411Y7DJ/?spm_id_from=333.999.0.0&vd_source=f9105755833a175d6cfb9429d860f415)
 
 对应的后端代码详见 [MyChat](https://github.com/Zzzzzya/MyChat)
 
